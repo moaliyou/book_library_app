@@ -1,10 +1,13 @@
 package com.example.book_library_app.dbHelper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class BookDatabaseHelper extends SQLiteOpenHelper {
 
@@ -40,4 +43,20 @@ public class BookDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
+
+    public void registerNewBook(String bookTitle, String bookAuthor, int bookPage){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues mContentValues = new ContentValues();
+
+        mContentValues.put(COLUMN_BOOK_TITLES, bookTitle);
+        mContentValues.put(COLUMN_BOOK_AUTHORS, bookAuthor);
+        mContentValues.put(COLUMN_BOOK_PAGES, bookPage);
+
+        long codeResult = db.insert(TABLE_NAME, null, mContentValues);
+
+        if (!(codeResult == -1)) {
+//            MaterialAlertDialogBuilder
+        }
+    }
+
 }
