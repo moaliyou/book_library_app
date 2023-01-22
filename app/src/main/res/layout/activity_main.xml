@@ -14,10 +14,11 @@
         android:layout_marginBottom="32dp"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundTint="@color/purple_500"
+        android:contentDescription="Go to registration book form"
+        android:backgroundTint="@color/purple_200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic_add"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_book_list"

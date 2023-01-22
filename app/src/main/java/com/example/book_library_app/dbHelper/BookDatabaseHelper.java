@@ -3,6 +3,7 @@ package com.example.book_library_app.dbHelper;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -69,6 +70,18 @@ public class BookDatabaseHelper extends SQLiteOpenHelper {
 
                     }
                 }).show();
+    }
+
+    public Cursor readBookData() {
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor mCursor = null;
+
+        if (db != null) {
+            mCursor = db.rawQuery(query, null);
+        }
+
+        return mCursor;
     }
 
 }
