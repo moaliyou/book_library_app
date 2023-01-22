@@ -2,8 +2,10 @@ package com.example.book_library_app.dbHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -20,7 +22,7 @@ public class BookDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_BOOK_AUTHORS = "book_authors";
     private static final String COLUMN_BOOK_PAGES = "book_pages";
 
-    private Context mContext;
+    private final Context mContext;
 
     public BookDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,7 +46,7 @@ public class BookDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void registerNewBook(String bookTitle, String bookAuthor, int bookPage){
+    public void registerNewBook(String bookTitle, String bookAuthor, int bookPage) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues mContentValues = new ContentValues();
 
@@ -55,8 +57,18 @@ public class BookDatabaseHelper extends SQLiteOpenHelper {
         long codeResult = db.insert(TABLE_NAME, null, mContentValues);
 
         if (!(codeResult == -1)) {
-            MaterialAlertDialogBuilder
+            Toast.makeText(mContext, "added new book successfully", Toast.LENGTH_SHORT).show();
+            return;
         }
+        new MaterialAlertDialogBuilder(mContext)
+                .setTitle("Warning")
+                .setMessage("Failed to add new book")
+                .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                }).show();
     }
 
 }
