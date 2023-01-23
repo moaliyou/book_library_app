@@ -2,6 +2,7 @@ package com.example.book_library_app.modal;
 
 public class BookModal {
 
+    private int bookId;
     private String bookTitle;
     private String bookAuthor;
     private int bookPages;
@@ -15,8 +16,23 @@ public class BookModal {
         this.bookPages = bookPages;
     }
 
+    public BookModal(int bookId, String bookTitle, String bookAuthor, int bookPages) {
+        this.bookId = bookId;
+        this.bookTitle = bookTitle;
+        this.bookAuthor = bookAuthor;
+        this.bookPages = bookPages;
+    }
+
     public String getBookTitle() {
         return bookTitle;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
     public void setBookTitle(String bookTitle) {

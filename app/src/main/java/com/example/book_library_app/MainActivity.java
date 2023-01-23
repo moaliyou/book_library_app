@@ -1,6 +1,7 @@
 package com.example.book_library_app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.book_library_app.adapters.CustomBookAdapter;
 import com.example.book_library_app.dbHelper.BookDatabaseHelper;
 import com.example.book_library_app.modal.BookModal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,13 +40,17 @@ public class MainActivity extends AppCompatActivity {
         bookList = new ArrayList<>();
         registerNewBook();
         storeDataInArray();
+
+        CustomBookAdapter customBookAdapter = new CustomBookAdapter(MainActivity.this, bookList);
+        rv_bookList.setAdapter(customBookAdapter);
+        rv_bookList.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
     private void storeDataInArray() {
         Cursor mCursor = bookDatabaseHelper.readBookData();
         if(mCursor.getCount() != 0) {
             while (mCursor.moveToNext()) {
-                bookList.add(new BookModal(mCursor.getString(0), mCursor.getString(1), Integer.parseInt(mCursor.getString(2))));
+                bookList.add(new BookModal(Integer.parseInt(mCursor.getString(0)), mCursor.getString(1), mCursor.getString(2), Integer.parseInt(mCursor.getString(3))));
             }
             return;
         }
