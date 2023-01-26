@@ -1,5 +1,6 @@
 package com.example.book_library_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,5 +45,10 @@ public class AddBookActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(AddBookActivity.this, MainActivity.class));
     }
 }

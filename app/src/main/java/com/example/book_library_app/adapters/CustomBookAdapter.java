@@ -11,14 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.book_library_app.R;
+import com.example.book_library_app.helperclasses.MyHelperClass;
 import com.example.book_library_app.modal.BookModal;
 
 import java.util.ArrayList;
 
 public class CustomBookAdapter extends RecyclerView.Adapter<CustomBookAdapter.MyViewHolder> {
 
-    private Context mContext;
-    private ArrayList<BookModal> bookList;
+    private final Context mContext;
+    private final ArrayList<BookModal> bookList;
 
     public CustomBookAdapter(Context context, ArrayList<BookModal> bookList) {
         this.mContext = context;
@@ -39,9 +40,22 @@ public class CustomBookAdapter extends RecyclerView.Adapter<CustomBookAdapter.My
         holder.tvBookTitle.setText(String.valueOf(bookList.get(position).getBookTitle()));
         holder.tvBookAuthor.setText(String.valueOf(bookList.get(position).getBookAuthor()));
         holder.tvBookPage.setText(String.valueOf(bookList.get(position).getBookPages()));
+
+        // displaying info of the selected row
         holder.listLayoutId.setOnClickListener(
                 view -> {
-
+                    MyHelperClass.showInfoMessage(
+                            mContext,
+                            "Row Info",
+                            String.format(
+                                    "Book ID: %s\nBook Title: %s\nBook Author: %s\nBook Pages: %s",
+                                    bookList.get(position).getBookId(),
+                                    bookList.get(position).getBookTitle(),
+                                    bookList.get(position).getBookAuthor(),
+                                    bookList.get(position).getBookPages()
+                            ),
+                            "Ok"
+                    );
                 }
         );
     }
