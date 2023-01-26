@@ -10,12 +10,6 @@ public class BookModal {
     public BookModal() {
     }
 
-    public BookModal(String bookTitle, String bookAuthor, int bookPages) {
-        this.bookTitle = bookTitle;
-        this.bookAuthor = bookAuthor;
-        this.bookPages = bookPages;
-    }
-
     public BookModal(int bookId, String bookTitle, String bookAuthor, int bookPages) {
         this.bookId = bookId;
         this.bookTitle = bookTitle;
@@ -31,27 +25,11 @@ public class BookModal {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
-    }
-
     public String getBookAuthor() {
         return bookAuthor;
     }
 
-    public void setBookAuthor(String bookAuthor) {
-        this.bookAuthor = bookAuthor;
-    }
-
     public int getBookPages() {
         return bookPages;
-    }
-
-    public void setBookPages(int bookPages) {
-        this.bookPages = bookPages;
     }
 }
