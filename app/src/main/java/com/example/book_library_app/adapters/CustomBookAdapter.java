@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,6 +39,11 @@ public class CustomBookAdapter extends RecyclerView.Adapter<CustomBookAdapter.My
         holder.tvBookTitle.setText(String.valueOf(bookList.get(position).getBookTitle()));
         holder.tvBookAuthor.setText(String.valueOf(bookList.get(position).getBookAuthor()));
         holder.tvBookPage.setText(String.valueOf(bookList.get(position).getBookPages()));
+        holder.listLayoutId.setOnClickListener(
+                view -> {
+
+                }
+        );
     }
 
     @Override
@@ -48,6 +54,7 @@ public class CustomBookAdapter extends RecyclerView.Adapter<CustomBookAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvBookId, tvBookTitle, tvBookAuthor, tvBookPage;
+        LinearLayout listLayoutId;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,6 +62,7 @@ public class CustomBookAdapter extends RecyclerView.Adapter<CustomBookAdapter.My
             tvBookTitle = itemView.findViewById(R.id.tv_book_title);
             tvBookAuthor = itemView.findViewById(R.id.tv_book_author);
             tvBookPage = itemView.findViewById(R.id.tv_book_pages);
+            listLayoutId = itemView.findViewById(R.id.listLayoutId);
         }
     }
 }

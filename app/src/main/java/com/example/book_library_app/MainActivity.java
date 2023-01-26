@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.book_library_app.adapters.CustomBookAdapter;
-import com.example.book_library_app.dbHelper.BookDatabaseHelper;
+import com.example.book_library_app.helperclasses.BookDatabaseHelper;
 import com.example.book_library_app.modal.BookModal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

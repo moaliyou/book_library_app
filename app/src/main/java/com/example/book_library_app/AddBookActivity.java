@@ -6,7 +6,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.book_library_app.dbHelper.BookDatabaseHelper;
+import com.example.book_library_app.helperclasses.BookDatabaseHelper;
 
 public class AddBookActivity extends AppCompatActivity {
 
