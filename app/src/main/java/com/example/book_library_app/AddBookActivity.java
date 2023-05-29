@@ -42,13 +42,10 @@ public class AddBookActivity extends AppCompatActivity {
             if (!(bookTitle.isEmpty()) && !(bookAuthor.isEmpty()) && !(bookPagesInput.isEmpty())) {
                 int bookPages = Integer.parseInt(etBookPages.getText().toString().trim());
                 bookDatabaseHelper.registerNewBook(bookTitle, bookAuthor, bookPages);
+                startActivity(new Intent(AddBookActivity.this, MainActivity.class));
             }
 
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(AddBookActivity.this, MainActivity.class));
-    }
 }
