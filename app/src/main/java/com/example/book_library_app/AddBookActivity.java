@@ -7,12 +7,12 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.book_library_app.helperclasses.BookDatabaseHelper;
+import com.example.book_library_app.helperclasses.BookDatabaseClass;
 
 public class AddBookActivity extends AppCompatActivity {
 
     private EditText etBookTitle, etBookAuthor, etBookPages;
-    private BookDatabaseHelper bookDatabaseHelper;
+    private BookDatabaseClass bookDatabaseClass;
     private Button btnAddNewBook;
 
     @Override
@@ -28,7 +28,7 @@ public class AddBookActivity extends AppCompatActivity {
         etBookAuthor = findViewById(R.id.et_book_author);
         etBookPages = findViewById(R.id.et_book_pages);
         btnAddNewBook = findViewById(R.id.btn_add_new_book);
-        bookDatabaseHelper = new BookDatabaseHelper(this);
+        bookDatabaseClass = new BookDatabaseClass(this);
 
         addBook();
     }
@@ -41,7 +41,7 @@ public class AddBookActivity extends AppCompatActivity {
 
             if (!(bookTitle.isEmpty()) && !(bookAuthor.isEmpty()) && !(bookPagesInput.isEmpty())) {
                 int bookPages = Integer.parseInt(etBookPages.getText().toString().trim());
-                bookDatabaseHelper.registerNewBook(bookTitle, bookAuthor, bookPages);
+                bookDatabaseClass.registerNewBook(bookTitle, bookAuthor, bookPages);
                 startActivity(new Intent(AddBookActivity.this, MainActivity.class));
             }
 
