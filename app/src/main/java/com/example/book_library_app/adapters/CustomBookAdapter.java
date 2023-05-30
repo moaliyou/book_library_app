@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.book_library_app.EditBookActivity;
 import com.example.book_library_app.R;
-import com.example.book_library_app.helperclasses.MyHelperClass;
 import com.example.book_library_app.modal.BookModal;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class CustomBookAdapter extends RecyclerView.Adapter<CustomBookAdapter.My
         return bookList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvBookId, tvBookTitle, tvBookAuthor, tvBookPage;
         LinearLayout listLayoutId;

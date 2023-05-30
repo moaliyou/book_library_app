@@ -75,7 +75,11 @@ public class EditBookActivity extends AppCompatActivity {
             String bookPagesInput = etBookPages.getText().toString().trim();
 
             if (!(bookTitle.isEmpty()) && !(bookAuthor.isEmpty()) && !(bookPagesInput.isEmpty())) {
-                bookDatabaseClass.editBookData(bookId, bookTitle, bookAuthor, bookPages);
+                bookDatabaseClass.editBookData(
+                        bookId, bookTitle,
+                        bookAuthor, Integer.parseInt(bookPagesInput)
+                );
+
                 startActivity(new Intent(EditBookActivity.this, MainActivity.class));
             }
 

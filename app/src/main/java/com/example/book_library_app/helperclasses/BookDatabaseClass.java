@@ -72,7 +72,7 @@ public class BookDatabaseClass extends SQLiteOpenHelper {
         return mCursor;
     }
 
-    public void editBookData(String bookId, String bookTitle, String bookAuthor, String bookPages) {
+    public void editBookData(String bookId, String bookTitle, String bookAuthor, int bookPages) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
