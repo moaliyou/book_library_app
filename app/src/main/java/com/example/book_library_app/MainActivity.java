@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.book_library_app.adapters.CustomBookAdapter;
-import com.example.book_library_app.helperclasses.BookDatabaseHelper;
+import com.example.book_library_app.helperclasses.BookDatabaseClass;
 import com.example.book_library_app.modal.BookModal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton addNewBook;
     private ArrayList<BookModal> bookList;
-    private BookDatabaseHelper bookDatabaseHelper;
+    private BookDatabaseClass bookDatabaseClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         RecyclerView rv_bookList = findViewById(R.id.rv_book_list);
         addNewBook = findViewById(R.id.fab_add_new_book);
-        bookDatabaseHelper = new BookDatabaseHelper(this);
+        bookDatabaseClass = new BookDatabaseClass(this);
         bookList = new ArrayList<>();
 
         gotToFormBook();
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void storeDataInArray() {
-        Cursor mCursor = bookDatabaseHelper.readBookData();
+        Cursor mCursor = bookDatabaseClass.readBookData();
         if (mCursor.getCount() != 0) {
             listBooks(mCursor);
             return;
