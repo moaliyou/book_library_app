@@ -54,7 +54,7 @@ public class BookDatabaseClass extends SQLiteOpenHelper {
 
         MyHelperClass.showInfoMessage(
                 mContext,
-                "Warning",
+                "Error",
                 "Failed to add new book :(",
                 "Try again"
         );
@@ -92,8 +92,28 @@ public class BookDatabaseClass extends SQLiteOpenHelper {
 
         MyHelperClass.showInfoMessage(
                 mContext,
-                "Warning",
+                "Error",
                 "Failed to save changes. Something went wrong :(",
+                "Try again"
+        );
+
+    }
+
+    public void deleteBook(String bookId) {
+        SQLiteDatabase database = this.getWritableDatabase();
+
+
+        long resultCode = database.delete(BookDatabaseHelper.TABLE_NAME, "_id=?", new String[]{bookId});
+
+        if (!(resultCode == -1)) {
+            Toast.makeText(mContext, "Deleted successfully", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        MyHelperClass.showInfoMessage(
+                mContext,
+                "Error",
+                "Failed to delete. Something went wrong :(",
                 "Try again"
         );
 

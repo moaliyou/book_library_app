@@ -10,12 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.book_library_app.helperclasses.BookDatabaseClass;
 import com.example.book_library_app.helperclasses.MyHelperClass;
+import com.example.book_library_app.interfaces.BookRemover;
 
 public class EditBookActivity extends AppCompatActivity {
 
     private EditText etBookTitle, etBookAuthor, etBookPages;
     private BookDatabaseClass bookDatabaseClass;
-    private Button btnEditBook;
+    private Button btnEditBook, btnDeleteBook;
 
     private String bookId, bookTitle, bookAuthor, bookPages;
 
@@ -32,13 +33,25 @@ public class EditBookActivity extends AppCompatActivity {
         etBookAuthor = findViewById(R.id.et_book_author);
         etBookPages = findViewById(R.id.et_book_pages);
         btnEditBook = findViewById(R.id.btn_edit_book);
+        btnDeleteBook = findViewById(R.id.btn_delete_book);
         bookDatabaseClass = new BookDatabaseClass(this);
 
         getIntentData();
         setIntentDataToEditTexts();
         setTitleToActionBar(bookTitle);
 
+        deleteBook();
         editBook();
+    }
+
+    private void deleteBook() {
+        btnDeleteBook.setOnClickListener(view -> {
+
+            BookRemover remover = () -> bookDatabaseClass.deleteBook(bookId);
+
+            MyHelperClass.confirmDialog(this, "Are you sure to delete " + bookTitle + "?", remover);
+
+        });
     }
 
     private void setTitleToActionBar(String title) {
@@ -89,7 +102,10 @@ public class EditBookActivity extends AppCompatActivity {
                         bookAuthor, Integer.parseInt(bookPagesInput)
                 );
 
-                startActivity(new Intent(EditBookActivity.this, MainActivity.class));
+                Intent intent = new Intent(EditBookActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
 
         });

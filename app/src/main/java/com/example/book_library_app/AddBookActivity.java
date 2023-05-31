@@ -40,9 +40,14 @@ public class AddBookActivity extends AppCompatActivity {
             String bookPagesInput = etBookPages.getText().toString().trim();
 
             if (!(bookTitle.isEmpty()) && !(bookAuthor.isEmpty()) && !(bookPagesInput.isEmpty())) {
+
                 int bookPages = Integer.parseInt(etBookPages.getText().toString().trim());
                 bookDatabaseClass.registerNewBook(bookTitle, bookAuthor, bookPages);
-                startActivity(new Intent(AddBookActivity.this, MainActivity.class));
+
+                Intent intent = new Intent(AddBookActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
 
         });
