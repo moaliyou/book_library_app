@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.book_library_app.helperclasses.BookDatabaseClass;
@@ -16,7 +17,7 @@ public class EditBookActivity extends AppCompatActivity {
     private BookDatabaseClass bookDatabaseClass;
     private Button btnEditBook;
 
-    private String bookId, bookTile, bookAuthor, bookPages;
+    private String bookId, bookTitle, bookAuthor, bookPages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,20 @@ public class EditBookActivity extends AppCompatActivity {
 
         getIntentData();
         setIntentDataToEditTexts();
+        setTitleToActionBar(bookTitle);
 
         editBook();
     }
 
+    private void setTitleToActionBar(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (!title.isEmpty() && actionBar != null) {
+            actionBar.setTitle(title);
+        }
+    }
+
     private void setIntentDataToEditTexts() {
-        etBookTitle.setText(bookTile);
+        etBookTitle.setText(bookTitle);
         etBookAuthor.setText(bookAuthor);
         etBookPages.setText(bookPages);
     }
@@ -55,7 +64,7 @@ public class EditBookActivity extends AppCompatActivity {
         }
 
         bookId = getIntent().getStringExtra("id");
-        bookTile = getIntent().getStringExtra("title");
+        bookTitle = getIntent().getStringExtra("title");
         bookAuthor = getIntent().getStringExtra("author");
         bookPages = getIntent().getStringExtra("pages");
 
