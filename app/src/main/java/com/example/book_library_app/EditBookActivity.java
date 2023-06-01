@@ -1,6 +1,5 @@
 package com.example.book_library_app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,7 +55,7 @@ public class EditBookActivity extends AppCompatActivity {
 
     private void setTitleToActionBar(String title) {
         ActionBar actionBar = getSupportActionBar();
-        if (!title.isEmpty() && actionBar != null) {
+        if (title != null && actionBar != null && !title.isEmpty()) {
             actionBar.setTitle(title);
         }
     }
@@ -102,10 +101,7 @@ public class EditBookActivity extends AppCompatActivity {
                         bookAuthor, Integer.parseInt(bookPagesInput)
                 );
 
-                Intent intent = new Intent(EditBookActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                MyHelperClass.refreshActivity(this, MainActivity.class);
             }
 
         });

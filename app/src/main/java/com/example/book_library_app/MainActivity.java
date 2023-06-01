@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.book_library_app.adapters.CustomBookAdapter;
 import com.example.book_library_app.helperclasses.BookDatabaseClass;
+import com.example.book_library_app.helperclasses.MyHelperClass;
+import com.example.book_library_app.interfaces.BookRemover;
 import com.example.book_library_app.modal.BookModal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton addNewBook;
     private ArrayList<BookModal> bookList;
     private BookDatabaseClass bookDatabaseClass;
+    private TextView tvNoData;
+    private ImageView ivInboxIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         RecyclerView rv_bookList = findViewById(R.id.rv_book_list);
         addNewBook = findViewById(R.id.fab_add_new_book);
+        ivInboxIcon = findViewById(R.id.iv_inbox_icon);
+        tvNoData = findViewById(R.id.tv_no_data);
         bookDatabaseClass = new BookDatabaseClass(this);
         bookList = new ArrayList<>();
 
@@ -53,11 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void storeDataInArray() {
         Cursor mCursor = bookDatabaseClass.readBookData();
+
         if (mCursor.getCount() != 0) {
+            ivInboxIcon.setVisibility(View.GONE);
+            tvNoData.setVisibility(View.GONE);
             listBooks(mCursor);
             return;
         }
-        Toast.makeText(this, "No data to list", Toast.LENGTH_SHORT).show();
+
+        ivInboxIcon.setVisibility(View.VISIBLE);
+        tvNoData.setVisibility(View.VISIBLE);
     }
 
     private void listBooks(Cursor mCursor) {
@@ -90,8 +103,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.delete_menu) {
-            Toast.makeText(this, "Delete All", Toast.LENGTH_SHORT).show();
+
+            BookRemover bookRemover = () -> bookDatabaseClass.deleteAllBooks();
+
+            MyHelperClass.confirmDialog(
+                    this,
+                    "Are you sure to delete all data?",
+                    bookRemover
+            );
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

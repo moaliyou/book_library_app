@@ -23,12 +23,16 @@ public class MyHelperClass {
                 .setMessage(messageBody)
                 .setPositiveButton("Yes", (dialogInterface, i) -> {
                     remover.deleteBook();
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(intent);
+                    refreshActivity(context, MainActivity.class);
                 })
                 .setNegativeButton("No", (dialogInterface, i) -> {}).show();
 
+    }
+
+    public static void refreshActivity(Context fromActivity, Class<?> targetActivity) {
+        Intent intent = new Intent(fromActivity, targetActivity);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        fromActivity.startActivity(intent);
     }
 
 }

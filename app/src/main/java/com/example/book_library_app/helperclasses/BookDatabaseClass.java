@@ -14,7 +14,11 @@ public class BookDatabaseClass extends SQLiteOpenHelper {
     private final Context mContext;
 
     public BookDatabaseClass(@Nullable Context context) {
-        super(context, BookDatabaseHelper.DATABASE_NAME, null, BookDatabaseHelper.DATABASE_VERSION);
+        super(
+                context,
+                BookDatabaseHelper.DATABASE_NAME,
+                null, BookDatabaseHelper.DATABASE_VERSION
+        );
         this.mContext = context;
     }
 
@@ -117,6 +121,11 @@ public class BookDatabaseClass extends SQLiteOpenHelper {
                 "Try again"
         );
 
+    }
+
+    public void deleteAllBooks() {
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL("DELETE FROM " + BookDatabaseHelper.TABLE_NAME);
     }
 
 }
