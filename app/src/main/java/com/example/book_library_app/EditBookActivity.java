@@ -8,8 +8,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.book_library_app.helperclasses.BookDatabaseClass;
+import com.example.book_library_app.helperclasses.BookDatabaseHelper;
 import com.example.book_library_app.helperclasses.MyHelperClass;
 import com.example.book_library_app.interfaces.BookRemover;
+
+import java.util.HashMap;
 
 public class EditBookActivity extends AppCompatActivity {
 
@@ -46,7 +49,7 @@ public class EditBookActivity extends AppCompatActivity {
     private void deleteBook() {
         btnDeleteBook.setOnClickListener(view -> {
 
-            BookRemover remover = () -> bookDatabaseClass.deleteBook(bookId);
+            BookRemover remover = () -> bookDatabaseClass.deleteBookById(bookId);
 
             MyHelperClass.confirmDialog(this, "Are you sure to delete " + bookTitle + "?", remover);
 
@@ -96,12 +99,16 @@ public class EditBookActivity extends AppCompatActivity {
             String bookPagesInput = etBookPages.getText().toString().trim();
 
             if (!(bookTitle.isEmpty()) && !(bookAuthor.isEmpty()) && !(bookPagesInput.isEmpty())) {
-                bookDatabaseClass.editBookData(
-                        bookId, bookTitle,
-                        bookAuthor, Integer.parseInt(bookPagesInput)
-                );
+
+                HashMap<String, String> dataList = new HashMap<>();
+                dataList.put(BookDatabaseHelper.COLUMN_BOOK_TITLES, bookTitle);
+                dataList.put(BookDatabaseHelper.COLUMN_BOOK_AUTHORS, bookAuthor);
+                dataList.put(BookDatabaseHelper.COLUMN_BOOK_PAGES, bookPagesInput);
+
+                bookDatabaseClass.updateData(BookDatabaseHelper.TABLE_NAME, bookId, dataList);
 
                 MyHelperClass.refreshActivity(this, MainActivity.class);
+
             }
 
         });

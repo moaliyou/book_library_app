@@ -2,6 +2,7 @@ package com.example.book_library_app.helperclasses;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.example.book_library_app.MainActivity;
 import com.example.book_library_app.interfaces.BookRemover;
@@ -33,6 +34,10 @@ public class MyHelperClass {
         Intent intent = new Intent(fromActivity, targetActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         fromActivity.startActivity(intent);
+    }
+
+    public static void showLongToastMessage(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
 }

@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BookDatabaseClass extends SQLiteOpenHelper {
 
     private final Context mContext;
@@ -24,13 +27,7 @@ public class BookDatabaseClass extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + BookDatabaseHelper.TABLE_NAME + " ( " +
-                BookDatabaseHelper.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                BookDatabaseHelper.COLUMN_BOOK_TITLES + " TEXT, " +
-                BookDatabaseHelper.COLUMN_BOOK_AUTHORS + " TEXT, " +
-                BookDatabaseHelper.COLUMN_BOOK_PAGES + " INTEGER);";
-
-        db.execSQL(query);
+        db.execSQL(BookDatabaseHelper.CREATE_BOOK_TABLE);
     }
 
     @Override
@@ -39,29 +36,35 @@ public class BookDatabaseClass extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void registerNewBook(String bookTitle, String bookAuthor, int bookPage) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues mContentValues = new ContentValues();
+    public void insertData(String tableName, HashMap<String, String> dataList) {
 
-        mContentValues.put(BookDatabaseHelper.COLUMN_BOOK_TITLES, bookTitle);
-        mContentValues.put(BookDatabaseHelper.COLUMN_BOOK_AUTHORS, bookAuthor);
-        mContentValues.put(BookDatabaseHelper.COLUMN_BOOK_PAGES, bookPage);
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
 
-        long codeResult = db.insert(
-                BookDatabaseHelper.TABLE_NAME, null, mContentValues
-        );
+        try {
+            database.beginTransaction();
 
-        if (!(codeResult == -1)) {
-            Toast.makeText(mContext, "Added new book successfully", Toast.LENGTH_SHORT).show();
-            return;
+            if (dataList != null && dataList.size() > 0) {
+
+                for (Map.Entry<String, String> data : dataList.entrySet())
+                    contentValues.put(data.getKey(), data.getValue());
+
+                long codeResult = database.insert(tableName, null, contentValues);
+
+                if (codeResult != -1) {
+                    database.setTransactionSuccessful();
+                    MyHelperClass.showLongToastMessage(mContext, "New book has been added");
+                }
+
+            }
+
+        } catch (Exception e) {
+            database.endTransaction();
+            e.printStackTrace();
+        } finally {
+            database.endTransaction();
         }
 
-        MyHelperClass.showInfoMessage(
-                mContext,
-                "Error",
-                "Failed to add new book :(",
-                "Try again"
-        );
     }
 
     public Cursor readBookData() {
@@ -76,40 +79,43 @@ public class BookDatabaseClass extends SQLiteOpenHelper {
         return mCursor;
     }
 
-    public void editBookData(String bookId, String bookTitle, String bookAuthor, int bookPages) {
+    public void updateData(String tableName, String dataId, HashMap<String, String> dataList) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(BookDatabaseHelper.COLUMN_BOOK_TITLES, bookTitle);
-        contentValues.put(BookDatabaseHelper.COLUMN_BOOK_AUTHORS, bookAuthor);
-        contentValues.put(BookDatabaseHelper.COLUMN_BOOK_PAGES, bookPages);
+        try {
+            database.beginTransaction();
 
-        long resultCode = database.update(
-                BookDatabaseHelper.TABLE_NAME, contentValues,
-                "_id=?", new String[]{bookId}
-        );
+            if (dataList != null && dataList.size() > 0) {
 
-        if (!(resultCode == -1)) {
-            Toast.makeText(mContext, "Updated successfully", Toast.LENGTH_SHORT).show();
-            return;
+                for (Map.Entry<String, String> data : dataList.entrySet())
+                    contentValues.put(data.getKey(), data.getValue());
+
+                long codeResult = database.update(tableName, contentValues, "_id=?", new String[]{dataId});
+
+                if (codeResult != -1) {
+                    database.setTransactionSuccessful();
+                    MyHelperClass.showLongToastMessage(mContext, "The book has been modified");
+                }
+
+            }
+
+        } catch (Exception e) {
+            database.endTransaction();
+            e.printStackTrace();
+        } finally {
+            database.endTransaction();
         }
-
-        MyHelperClass.showInfoMessage(
-                mContext,
-                "Error",
-                "Failed to save changes. Something went wrong :(",
-                "Try again"
-        );
 
     }
 
-    public void deleteBook(String bookId) {
+    public void deleteBookById(String bookId) {
         SQLiteDatabase database = this.getWritableDatabase();
 
 
         long resultCode = database.delete(BookDatabaseHelper.TABLE_NAME, "_id=?", new String[]{bookId});
 
-        if (!(resultCode == -1)) {
+        if (resultCode != -1) {
             Toast.makeText(mContext, "Deleted successfully", Toast.LENGTH_SHORT).show();
             return;
         }

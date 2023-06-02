@@ -1,6 +1,5 @@
 package com.example.book_library_app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -8,6 +7,10 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.book_library_app.helperclasses.BookDatabaseClass;
+import com.example.book_library_app.helperclasses.BookDatabaseHelper;
+import com.example.book_library_app.helperclasses.MyHelperClass;
+
+import java.util.HashMap;
 
 public class AddBookActivity extends AppCompatActivity {
 
@@ -30,10 +33,10 @@ public class AddBookActivity extends AppCompatActivity {
         btnAddNewBook = findViewById(R.id.btn_add_new_book);
         bookDatabaseClass = new BookDatabaseClass(this);
 
-        addBook();
+        addNewBook();
     }
 
-    private void addBook() {
+    private void addNewBook() {
         btnAddNewBook.setOnClickListener(view -> {
             String bookTitle = etBookTitle.getText().toString().trim();
             String bookAuthor = etBookAuthor.getText().toString().trim();
@@ -41,13 +44,14 @@ public class AddBookActivity extends AppCompatActivity {
 
             if (!(bookTitle.isEmpty()) && !(bookAuthor.isEmpty()) && !(bookPagesInput.isEmpty())) {
 
-                int bookPages = Integer.parseInt(etBookPages.getText().toString().trim());
-                bookDatabaseClass.registerNewBook(bookTitle, bookAuthor, bookPages);
+                HashMap<String, String> dataList = new HashMap<>();
+                dataList.put(BookDatabaseHelper.COLUMN_BOOK_TITLES, bookTitle);
+                dataList.put(BookDatabaseHelper.COLUMN_BOOK_AUTHORS, bookAuthor);
+                dataList.put(BookDatabaseHelper.COLUMN_BOOK_PAGES, bookPagesInput);
 
-                Intent intent = new Intent(AddBookActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                bookDatabaseClass.insertData(BookDatabaseHelper.TABLE_NAME, dataList);
+
+                MyHelperClass.refreshActivity(this, MainActivity.class);
             }
 
         });
